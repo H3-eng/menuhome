@@ -27,8 +27,8 @@
                             <div class="subtitle">月售：{{item.salenum}}</div>
                             <div class="price">
                                 <span>￥{{item.price}}</span>
-                                <div class="price-icon fr" @click="addpay(item.price)">
-                                  <i class="fa fa-plus-circle"  ></i> 
+                                <div class="price-icon fr">
+                                  <i class="fa fa-plus-circle"  @click.once="addpay(item.name,item.price)" ></i> 
                                 </div>
                             </div>
                             </div>
@@ -43,8 +43,8 @@
         <div class="accountlist">
             <div class="anode"><i class="fa fa-cart-plus" aria-hidden="true"></i></div>
             <span>￥{{totalprice}}</span>
-        </div>
-        <div class="account">去结算</div>
+        </div><div class="account">
+        <a @click="payinfo()">去结算</a></div>
     </mt-tabbar>
   </div>
 </template>
@@ -63,7 +63,9 @@ export default {
       menulist: [],
       scrollY: 0, //右侧列表滑动的y轴坐标
       rightLiTops: [],//所有分类头部位置,
-      totalprice:0
+      totalprice:0,
+      totaldata:[],
+      sendprice:0,
     };
   },
   computed: {
@@ -145,14 +147,29 @@ export default {
         this.menulist = data;
       });
     },
-    addpay(price){
+    addpay(name,price){
       this.totalprice+=price;
-      console.log(price);
+      let data={
+        'name':name,
+        'price':price
+      };
+      this.totaldata.push(data)
+      console.log(this.totaldata);
     },
+    payinfo(){
+      this.$router.push({
+        path:'/Sendorder',
+        query:{
+          totaldata:this.totaldata,
+          totalprice:this.totalprice
+
+        }
+      })
+    }
   }
 };
 </script>
-<style>
+<style scoped>
 .mint-tab-container {
   color: #909090;
   font-size: 14px;

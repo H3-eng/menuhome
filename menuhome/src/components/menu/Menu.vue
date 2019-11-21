@@ -1,11 +1,5 @@
 <template>
     <div class="menu">
-        <mt-header fixed title="爱心餐厅">
-            <router-link to="/" slot="left">
-                <mt-button icon="back"></mt-button>
-            </router-link>
-            <mt-button icon="more" slot="right"></mt-button>
-        </mt-header>
         <div class="described">
             <div class="d-top">
                 <div class="logo fl">
@@ -13,7 +7,7 @@
                 </div>
                 <div class="d-text">
                     <p>起送 ￥10 | 配送 ￥0 | 50分钟</p>
-                    <p>短号66215</p>
+                    <p>短号662185</p>
                 </div>
             </div>
             <div class="d-footer">
@@ -23,25 +17,48 @@
         </div>
         <mt-navbar v-model="selected">
             <mt-tab-item id="1"> <router-link to="/Menu">点菜</router-link></mt-tab-item>
-            <mt-tab-item id="2"><router-link to="/Menu">评价</router-link></mt-tab-item>
-            <mt-tab-item id="3">商家</mt-tab-item>
+            <mt-tab-item id="2"><router-link to="/Menu/Assess">评价</router-link></mt-tab-item>
+            <mt-tab-item id="3"><router-link to="/Menu/Store">商家</router-link></mt-tab-item>
         </mt-navbar>
         <mt-tab-container v-model="selected" class="clearfix">
             <mt-tab-container-item id="1" class="clearfix">
                 <router-view></router-view>
             </mt-tab-container-item>
-            <mt-tab-container-item id="2">   
+            <mt-tab-container-item id="2">
+                <router-view></router-view>   
             </mt-tab-container-item>
             <mt-tab-container-item id="3">
+                <router-view></router-view>
             </mt-tab-container-item>
         </mt-tab-container>
+        <mt-actionsheet :actions="actions" v-model="sheetVisible">
+        </mt-actionsheet>
     </div>
 </template>
 <script>
 export default {
+    created() {
+        this.$emit("footer", false);
+    },
     data(){
         return {
-            selected:'1',
+            selected:"1",
+            sheetVisible:false,
+            actions:[
+                {
+                    name:"分享",
+                    method:this.getshare
+                
+                }
+            ]
+        }
+    },
+    methods: {
+        actionsheet(){
+            this.sheetVisible=true;
+        },
+        getshare(){
+            console.log(111)
         }
     },
 }
